@@ -22,13 +22,13 @@ namespace GameWebApi.Controllers
 
 
         [HttpGet]
-        public ActionResult<List<Game>> Get()
+        public ActionResult<List<object>> Get()
         {
             return gameRepository.GetAll().ToList();
         }
 
         [HttpGet("{id}", Name = "GetGame")]
-        public ActionResult<Game> GetById(int id)
+        public ActionResult<object> GetById(int id)
         {
             return gameRepository.Get(id);
         }
@@ -41,7 +41,29 @@ namespace GameWebApi.Controllers
                 return BadRequest();
             }
             gameRepository.Create(item);
-            return CreatedAtRoute("GetGame", new { id = item.Id }, item);
+
+            return new NoContentResult();
+        }
+
+        [HttpPut]
+        public ActionResult Update([FromBody] Game item)
+        {
+            if (item == null)
+            {
+                return BadRequest();
+            }
+
+            gameRepository.Update(item);
+
+            return new NoContentResult();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            gameRepository.Delete(id);
+
+            return new NoContentResult();
         }
     }
 }

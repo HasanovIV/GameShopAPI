@@ -17,12 +17,12 @@ namespace GameWebApi.Repositories
             Context = gameContext;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<object> GetAll()
         {
             return Context.Set<T>().Select(t => t);
         }
 
-        public virtual T Get(int id)
+        public virtual object Get(int id)
         {
             return Context.Set<T>().FirstOrDefault(t => t.Equals((object)id));
         }
@@ -36,12 +36,25 @@ namespace GameWebApi.Repositories
 
         public virtual T Update(T model)
         {
-            throw new NotImplementedException();
+            Context.Set<T>().Update(model);
+            Context.SaveChanges();
+            return model;
         }
 
-        public virtual void Delete(int id)
+        public virtual bool Delete(int id)
         {
-            throw new NotImplementedException();
+            T model = Context.Set<T>().FirstOrDefault(t => t.Equals((object)id));
+            if (model != null)
+            {
+                Context.Set<T>().Remove(model);
+                Context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
     }
 }

@@ -1,24 +1,34 @@
-﻿using GameWebApi.Models;
-using GameWebApi.Repositories.Interfaces;
-using GameWebApi.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using GameWebApi.Database;
+using GameWebApi.Models;
+using GameWebApi.Repositories.Interfaces;
 
 namespace GameWebApi.Repositories
 {
-    public class GameRepository : BaseRepository<Game>
+    public class GameRepository: BaseRepository<Game>
     {
-        public GameRepository(GameContext gameContext) : base(gameContext)
+        public GameRepository(GameContext gameContext): base(gameContext)
         {
-
         }
 
-        public override Game Get(int id)
+        public override object Get(int id)
         {
-            //return Context.Games.SingleOrDefault(g => g.Id == id);
-            return base.Get(id);
+            var findGame = Context.Games.SingleOrDefault(res => res.Id == id);
+            var findGenreGame = Context.GameGenres.Where(gg => gg.GameId == findGame.Id);
+
+            var findGenres = Context.Genres.Join(
+                findGenreGame,
+                genre => genre.Id,
+                fgg => fgg.GenreId,
+                (genre, findGenreGame) => genre);
+
+            findGame.GameStudio = Context.Studios.SingleOrDefault(st => st.Id == findGame.GameStudioId);
+
+            var result = new { Game = findGame, Genres = findGenres };
+
+            return result;
         }
     }
 }

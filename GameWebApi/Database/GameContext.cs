@@ -13,7 +13,7 @@ namespace GameWebApi.Database
 
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
-            //Database.EnsureCreated();
+            
         }
     }
 }
