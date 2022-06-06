@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameWebApi.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20220606182338_Init")]
-    partial class Init
+    [Migration("20220606190421_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -118,7 +118,7 @@ namespace GameWebApi.Migrations
                         .IsRequired();
 
                     b.HasOne("GameWebApi.Models.Game", "Game")
-                        .WithMany()
+                        .WithMany("GameCategories")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -126,6 +126,11 @@ namespace GameWebApi.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("GameWebApi.Models.Game", b =>
+                {
+                    b.Navigation("GameCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,6 +12,8 @@ namespace GameWebApi.Models
         public int GameStudioId { get; set; }
         public Studio GameStudio{ get; set; }
 
+        public IEnumerable<GameCategory> GameCategories { get; set; }
+
         public override string ToString()
         {
             return Name;

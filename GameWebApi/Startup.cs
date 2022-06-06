@@ -37,6 +37,7 @@ namespace GameWebApi
 
             // Добаление зависимостей
             services.AddTransient<IBaseGameRepository<Game>, GameRepository>();
+            services.AddTransient<IBaseGameRepository<Category>, BaseRepository<Category>>();
             services.AddTransient<IGameService, GameService>();
 
             services.AddControllers();

@@ -116,7 +116,7 @@ namespace GameWebApi.Migrations
                         .IsRequired();
 
                     b.HasOne("GameWebApi.Models.Game", "Game")
-                        .WithMany()
+                        .WithMany("GameCategories")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -124,6 +124,11 @@ namespace GameWebApi.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("GameWebApi.Models.Game", b =>
+                {
+                    b.Navigation("GameCategories");
                 });
 #pragma warning restore 612, 618
         }
