@@ -2,6 +2,8 @@ using GameWebApi.Database;
 using GameWebApi.Models;
 using GameWebApi.Repositories;
 using GameWebApi.Repositories.Interfaces;
+using GameWebApi.Services;
+using GameWebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +37,7 @@ namespace GameWebApi
 
             // Добаление зависимостей
             services.AddTransient<IBaseGameRepository<Game>, GameRepository>();
+            services.AddTransient<IGameService, GameService>();
 
             services.AddControllers();
         }

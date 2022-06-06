@@ -7,7 +7,7 @@ namespace GameWebApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Genres",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -16,7 +16,7 @@ namespace GameWebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,40 +55,40 @@ namespace GameWebApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameGenres",
+                name: "GameCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GameId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameGenres", x => x.Id);
+                    table.PrimaryKey("PK_GameCategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GameGenres_Games_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Games",
+                        name: "FK_GameCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GameGenres_Genres_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genres",
+                        name: "FK_GameCategories_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameGenres_GameId",
-                table: "GameGenres",
-                column: "GameId");
+                name: "IX_GameCategories_CategoryId",
+                table: "GameCategories",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameGenres_GenreId",
-                table: "GameGenres",
-                column: "GenreId");
+                name: "IX_GameCategories_GameId",
+                table: "GameCategories",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_GameStudioId",
@@ -99,13 +99,13 @@ namespace GameWebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "GameGenres");
+                name: "GameCategories");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Games");
-
-            migrationBuilder.DropTable(
-                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Studios");

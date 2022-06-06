@@ -16,17 +16,17 @@ namespace GameWebApi.Repositories
         public override object Get(int id)
         {
             var findGame = Context.Games.SingleOrDefault(res => res.Id == id);
-            var findGenreGame = Context.GameGenres.Where(gg => gg.GameId == findGame.Id);
+            var findCategoryGame = Context.GameCategories.Where(gg => gg.GameId == findGame.Id);
 
-            var findGenres = Context.Genres.Join(
-                findGenreGame,
+            var findCategories = Context.Categories.Join(
+                findCategoryGame,
                 genre => genre.Id,
-                fgg => fgg.GenreId,
-                (genre, findGenreGame) => genre);
+                fgg => fgg.CategoryId,
+                (category, findGenreGame) => category);
 
             findGame.GameStudio = Context.Studios.SingleOrDefault(st => st.Id == findGame.GameStudioId);
 
-            var result = new { Game = findGame, Genres = findGenres };
+            var result = new { Game = findGame, Categories = findCategories };
 
             return result;
         }

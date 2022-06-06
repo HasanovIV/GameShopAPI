@@ -18,6 +18,21 @@ namespace GameWebApi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GameWebApi.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("GameWebApi.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -41,41 +56,26 @@ namespace GameWebApi.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("GameWebApi.Models.GameGenre", b =>
+            modelBuilder.Entity("GameWebApi.Models.GameCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenreId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("GameGenres");
-                });
-
-            modelBuilder.Entity("GameWebApi.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genres");
+                    b.ToTable("GameCategories");
                 });
 
             modelBuilder.Entity("GameWebApi.Models.Studio", b =>
@@ -107,33 +107,23 @@ namespace GameWebApi.Migrations
                     b.Navigation("GameStudio");
                 });
 
-            modelBuilder.Entity("GameWebApi.Models.GameGenre", b =>
+            modelBuilder.Entity("GameWebApi.Models.GameCategory", b =>
                 {
+                    b.HasOne("GameWebApi.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GameWebApi.Models.Game", "Game")
-                        .WithMany("GameGenres")
+                        .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GameWebApi.Models.Genre", "Genre")
-                        .WithMany("GameGenres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
 
                     b.Navigation("Game");
-
-                    b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("GameWebApi.Models.Game", b =>
-                {
-                    b.Navigation("GameGenres");
-                });
-
-            modelBuilder.Entity("GameWebApi.Models.Genre", b =>
-                {
-                    b.Navigation("GameGenres");
                 });
 #pragma warning restore 612, 618
         }

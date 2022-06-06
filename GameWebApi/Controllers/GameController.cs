@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GameWebApi.Models;
 using GameWebApi.Repositories;
 using GameWebApi.Repositories.Interfaces;
+using GameWebApi.Services.Interfaces;
 
 namespace GameWebApi.Controllers
 {
@@ -14,15 +15,16 @@ namespace GameWebApi.Controllers
     public class GameController: ControllerBase
     {
         private IBaseGameRepository<Game> gameRepository{ get; set; }
+        private IGameService gameService{ get; set; }
 
-        public GameController(IBaseGameRepository<Game> gameRepository)
+        public GameController(IBaseGameRepository<Game> gameRepository, IGameService gameService)
         {
             this.gameRepository = gameRepository;
+            this.gameService = gameService;
         }
 
-
         [HttpGet]
-        public ActionResult<List<object>> Get()
+        public ActionResult<List<Game>> Get()
         {
             return gameRepository.GetAll().ToList();
         }
@@ -31,6 +33,12 @@ namespace GameWebApi.Controllers
         public ActionResult<object> GetById(int id)
         {
             return gameRepository.Get(id);
+        }
+        
+        [HttpGet("category/{id}")]
+        public ActionResult<List<Game>> GamesByCategory(int id)
+        {
+            return gameService.GamesByCategory(id).ToList();
         }
 
         [HttpPost]

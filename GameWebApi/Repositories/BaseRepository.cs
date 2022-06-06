@@ -17,7 +17,7 @@ namespace GameWebApi.Repositories
             Context = gameContext;
         }
 
-        public virtual IEnumerable<object> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return Context.Set<T>().Select(t => t);
         }

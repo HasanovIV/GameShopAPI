@@ -1,13 +1,13 @@
 ﻿using System;
 namespace GameWebApi.Models
 {
-    public class GameGenre
+    public class GameCategory
     {
         public int Id { get; set; }
         public int GameId { get; set; }
         public Game  Game{ get; set; }
-        public int GenreId { get; set; }
-        public Genre Genre{ get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
     }
 }
