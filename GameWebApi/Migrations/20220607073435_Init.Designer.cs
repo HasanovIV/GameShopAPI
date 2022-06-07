@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameWebApi.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20220606190421_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220607073435_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

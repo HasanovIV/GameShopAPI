@@ -7,13 +7,18 @@ using GameWebApi.Repositories.Interfaces;
 
 namespace GameWebApi.Repositories
 {
-    public class GameRepository: BaseRepository<Game>
+    public class GameRepository: BaseRepository<Game, Category>
     {
         public GameRepository(GameContext gameContext): base(gameContext)
         {
         }
 
-        public override object Get(int id)
+        /// <summary>
+        /// Метод возвращает объект описания найденной игры.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>{Game, Categories}</returns>
+        public override (Game, IEnumerable<Category>) Get(int id)
         {
             var findGame = Context.Games.SingleOrDefault(res => res.Id == id);
             var findCategoryGame = Context.GameCategories.Where(gg => gg.GameId == findGame.Id);
@@ -28,7 +33,8 @@ namespace GameWebApi.Repositories
 
             var result = new { Game = findGame, Categories = findCategories };
 
-            return result;
+            //return result;
+            return (findGame, findCategories);
         }
     }
 }

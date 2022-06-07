@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace GameWebApi.Repositories.Interfaces
 {
-    public interface IBaseGameRepository<T> where T: class
+    public interface IBaseGameRepository<TKey, TValue> where TKey: class
     {
-        public IEnumerable<T> GetAll();
-        public object Get(int id);
-        public T Create(T model);
-        public T Update(T model);
+        public IEnumerable<TKey> GetAll();
+        public (TKey, IEnumerable<TValue>) Get(int id);
+        public TKey Create(TKey model);
+        public TKey Update(TKey model);
         public bool Delete(int id);
     }
 }
