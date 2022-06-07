@@ -14,10 +14,10 @@ namespace GameWebApi.Controllers
     [Route("api/[controller]")]
     public class GameController: ControllerBase
     {
-        private IBaseGameRepository<Game> gameRepository{ get; set; }
+        private IBaseGameRepository<Game, Category> gameRepository{ get; set; }
         private IGameService gameService{ get; set; }
 
-        public GameController(IBaseGameRepository<Game> gameRepository, IGameService gameService)
+        public GameController(IBaseGameRepository<Game, Category> gameRepository, IGameService gameService)
         {
             this.gameRepository = gameRepository;
             this.gameService = gameService;
@@ -41,7 +41,8 @@ namespace GameWebApi.Controllers
         [HttpGet("{id}", Name = "GetGame")]
         public ActionResult<object> GetById(int id)
         {
-            return gameRepository.Get(id);
+            var result = gameRepository.Get(id);
+            return new { Game = result.Item1, Categories = result.Item2 };
         }
         
         /// <summary>

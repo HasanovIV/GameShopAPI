@@ -8,7 +8,7 @@ using GameWebApi.Models;
 
 namespace GameWebApi.Repositories
 {
-    public class BaseRepository<T> : IBaseGameRepository<T> where T : class
+    public class BaseRepository<TKey, TValue> : IBaseGameRepository<TKey, TValue> where TKey : class
     {
         protected GameContext Context { get; set; }
 
@@ -17,9 +17,9 @@ namespace GameWebApi.Repositories
             Context = gameContext;
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<TKey> GetAll()
         {
-            return Context.Set<T>().Select(t => t);
+            return Context.Set<TKey>().Select(t => t);
         }
 
         /// <summary>
@@ -28,31 +28,37 @@ namespace GameWebApi.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual object Get(int id)
+        public virtual (TKey, IEnumerable<TValue>) Get(int id)
         {
-            return Context.Set<T>().FirstOrDefault(t => t.Equals((object)id));
+            TKey model = Context.Set<TKey>()
+                .AsEnumerable()
+                .FirstOrDefault(t => String.Equals(t.ToString(), id.ToString()));
+            return (model, null);
         }
 
-        public virtual T Create(T model)
+        public virtual TKey Create(TKey model)
         {
-            Context.Set<T>().Add(model);
+            Context.Set<TKey>().Add(model);
             Context.SaveChanges();
             return model;
         }
 
-        public virtual T Update(T model)
+        public virtual TKey Update(TKey model)
         {
-            Context.Set<T>().Update(model);
+            Context.Set<TKey>().Update(model);
             Context.SaveChanges();
             return model;
         }
 
         public virtual bool Delete(int id)
         {
-            T model = Context.Set<T>().FirstOrDefault(t => t.Equals((object)id));
+            TKey model = Context.Set<TKey>()
+                .AsEnumerable()
+                .FirstOrDefault(t => String.Equals(t.ToString(), id.ToString()) );
+
             if (model != null)
             {
-                Context.Set<T>().Remove(model);
+                Context.Set<TKey>().Remove(model);
                 Context.SaveChanges();
                 return true;
             }
@@ -60,7 +66,6 @@ namespace GameWebApi.Repositories
             {
                 return false;
             }
-            
         }
     }
 }

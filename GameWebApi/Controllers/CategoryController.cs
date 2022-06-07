@@ -14,9 +14,9 @@ namespace GameWebApi.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private IBaseGameRepository<Category> gameRepository { get; set; }
+        private IBaseGameRepository<Category, Game> gameRepository { get; set; }
 
-        public CategoryController(IBaseGameRepository<Category> gameRepository)
+        public CategoryController(IBaseGameRepository<Category, Game> gameRepository)
         {
             this.gameRepository = gameRepository;
         }
