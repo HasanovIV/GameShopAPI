@@ -14,6 +14,17 @@ namespace GameWebApi.Database
 
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
+            InitialData();
+        }
+
+        #region Заполнение начальных данных базы.
+
+        /// <summary>
+        /// Метод заполняет начальные данные в базе, если в базе они отсутствуют.
+        /// Упращает тестирование и начальное заполнение данных.
+        /// </summary>
+        private void InitialData()
+        {
             if (!Categories.Any())
             {
                 InitialStudies();
@@ -52,5 +63,7 @@ namespace GameWebApi.Database
             GameCategories.Add(new GameCategory() { CategoryId = 3, GameId = 2 });
             this.SaveChanges();
         }
+
+        #endregion
     }
 }

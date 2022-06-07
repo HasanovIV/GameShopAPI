@@ -29,6 +29,7 @@ namespace GameWebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Создание строки подключения
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(connection));

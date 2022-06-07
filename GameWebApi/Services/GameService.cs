@@ -17,7 +17,7 @@ namespace GameWebApi.Services
 
         public IEnumerable<Game> GamesByCategory(int categoryId)
         {
-            var _categoryGames = Context.GameCategories.Where(gg => gg.CategoryId == categoryId);
+            var _categoryGames = Context.GameCategories.Where(gс => gс.CategoryId == categoryId);
             var _games = Context.Games.Join(
                 _categoryGames, g => g.Id, category => category.GameId,
                 (g, category) => g);
