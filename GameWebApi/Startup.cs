@@ -29,18 +29,18 @@ namespace GameWebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Создание строки подключения
+            // РЎРѕР·РґР°РЅРёРµ СЃС‚СЂРѕРєРё РїРѕРґРєР»СЋС‡РµРЅРёСЏ
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddMvc();
-
-            // Добаление зависимостей
+            // Р”РѕР±Р°Р»РµРЅРёРµ Р·Р°РІРёСЃРёРјРѕСЃС‚РµР№
             services.AddTransient<IBaseGameRepository<Game, Category>, GameRepository>();
             services.AddTransient<IBaseGameRepository<Category, Game>, BaseRepository<Category, Game>>();
             services.AddTransient<IGameService, GameService>();
 
+            // РџСЂРѕС‡РёРµ СЃРµСЂРІРёСЃС‹
+            services.AddMvc();
             services.AddControllers();
         }
 
