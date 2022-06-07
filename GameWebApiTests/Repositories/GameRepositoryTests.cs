@@ -8,28 +8,31 @@ using GameWebApi.Services;
 using GameWebApi.Controllers;
 using System.Linq;
 using GameWebApi.Models;
+using Microsoft.EntityFrameworkCore;
+using GameWebApiTests.Common;
 
 namespace GameWebApi.Repositories.Tests
 {
     [TestClass()]
-    public class GameRepositoryTests
+    public class GameRepositoryTests: TestCommandBase
     {
+
         [TestMethod()]
         public void GetTest()
         {
             // Init
-            var dbContext = new GameContext();
-            MockInitialDatabase.InitialData(dbContext);
+            var game = new Game() {Name = "HMM3" };
+            Context.Games.Add(game);
+            Context.SaveChanges();
 
-            var repository = new GameRepository(dbContext);
+           var repository = new GameRepository(Context);
 
             // Act
-            var resultController = repository.Get(1);
-            var resultDb = dbContext.Games.SingleOrDefault(g => g.Id == 1);
+            var resultGame = Context.Games.OrderBy(g => g.Id).LastOrDefault();
+            var resultController = repository.Get(resultGame.Id);
 
             // Assert
-            Assert.IsNotNull(resultDb);
-            Assert.AreEqual(resultDb.Name, resultController.Item1.Name);
+            Assert.AreEqual(game.Name, resultController.Item1.Name);
         }
     }
 }

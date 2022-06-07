@@ -1,4 +1,6 @@
-﻿using GameWebApi.Models;
+﻿using GameWebApi.Database;
+using GameWebApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
@@ -10,5 +12,6 @@ namespace GameWebApiTests.Mock
         public List<GameCategory> GameCategories { get; set; }
         public List<Category> Categories { get; set; }
         public List<Studio> Studios { get; set; }
+
     }
 }

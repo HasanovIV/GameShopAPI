@@ -31,9 +31,6 @@ namespace GameWebApi.Repositories
 
             findGame.GameStudio = Context.Studios.SingleOrDefault(st => st.Id == findGame.GameStudioId);
 
-            var result = new { Game = findGame, Categories = findCategories };
-
-            //return result;
             return (findGame, findCategories);
         }
     }
